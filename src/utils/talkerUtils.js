@@ -19,4 +19,12 @@ const getAllTalkers = async () => {
   return talkers;
 };
 
-module.exports = { getAllTalkers };
+const getTalkerId = async (id) => {
+  const talkers = await readTalkerFile();
+
+  const findTalker = talkers.find((talker) => talker.id === Number(id));
+
+  return findTalker;
+};
+
+module.exports = { getAllTalkers, getTalkerId };
