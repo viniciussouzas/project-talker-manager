@@ -1,9 +1,10 @@
 const express = require('express');
 const { generateToken } = require('../utils/loginUtils');
+const { emailValidation, passwordValidation } = require('../middlewares/loginValidation');
 
 const loginRouter = express.Router();
 
-loginRouter.post('/', async (req, res) => {
+loginRouter.post('/', emailValidation, passwordValidation, async (req, res) => {
   // const { email, password } = req.body;
 
   const randomToken = generateToken();
