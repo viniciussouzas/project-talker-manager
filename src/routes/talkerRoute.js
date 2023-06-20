@@ -63,4 +63,18 @@ talkValidation, watchedAtValidation, rateValidation, idValidation, async (req, r
   res.status(200).json(infoToUpdate);
 });
 
+talkerRouter.delete('/:id', tokenValidation, idValidation, async (req, res) => {
+  const { id } = req.params;
+
+  const response = await getAllTalkers();
+
+  const talkerIndex = response.findIndex((talker) => talker.id === Number(id));
+
+  response.splice(talkerIndex, 1);
+
+  await writeTalkerFile(JSON.stringify(response, null, 2));
+
+  res.status(204).end();
+});
+
 module.exports = talkerRouter;
