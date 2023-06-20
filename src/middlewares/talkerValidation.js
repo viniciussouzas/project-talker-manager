@@ -1,3 +1,5 @@
+const { getAllTalkers } = require('../utils/talkerUtils');
+
 const tokenValidation = (req, res, next) => {
   const { authorization } = req.headers;
 
@@ -88,6 +90,20 @@ const rateValidation = (req, res, next) => {
   next();
 };
 
+const idValidation = async (req, res, next) => {
+  const { id } = req.params;
+
+  const response = await getAllTalkers();
+
+  const talkerFind = response.find((talker) => talker.id === Number(id));
+
+  if (!talkerFind) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+
+  next();
+};
+
 module.exports = { 
   tokenValidation, 
   nameValidation, 
@@ -95,4 +111,5 @@ module.exports = {
   talkValidation,
   watchedAtValidation,
   rateValidation,
+  idValidation,
 };

@@ -6,7 +6,8 @@ const {
   ageValidation, 
   talkValidation,
   watchedAtValidation, 
-  rateValidation } = require('../middlewares/talkerValidation');
+  rateValidation, 
+  idValidation } = require('../middlewares/talkerValidation');
 
 const talkerRouter = express.Router();
 
@@ -43,6 +44,23 @@ ageValidation, talkValidation, watchedAtValidation, rateValidation, async (req, 
   await writeTalkerFile(JSON.stringify(response, null, 2));
 
   res.status(201).json(newTalker);
+});
+
+talkerRouter.put('/:id', tokenValidation, nameValidation, ageValidation,
+talkValidation, watchedAtValidation, rateValidation, idValidation, async (req, res) => {
+  const { id } = req.params;
+
+  const response = await getAllTalkers();
+
+  const talkerIndex = response.findIndex((talker) => talker.id === Number(id));
+
+  const infoToUpdate = { id: Number(id), ...req.body };
+
+  response[talkerIndex] = infoToUpdate;
+
+  await writeTalkerFile(JSON.stringify(response, null, 2));
+
+  res.status(200).json(infoToUpdate);
 });
 
 module.exports = talkerRouter;
