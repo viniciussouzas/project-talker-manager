@@ -4,7 +4,8 @@ const {
   getTalkerId, 
   createTalker, 
   updateTalker, 
-  deleteTalker } = require('../utils/talkerUtils');
+  deleteTalker, 
+  getTalkerByName } = require('../utils/talkerUtils');
 const { 
   tokenValidation, 
   nameValidation, 
@@ -22,6 +23,14 @@ talkerRouter.get('/', async (req, res) => {
   if (!response) {
     return res.status(200).json([]);
   }
+
+  return res.status(200).json(response);
+});
+
+talkerRouter.get('/search', tokenValidation, async (req, res) => {
+  const { q } = req.query;
+
+  const response = await getTalkerByName(q);
 
   return res.status(200).json(response);
 });

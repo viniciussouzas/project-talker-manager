@@ -42,6 +42,18 @@ const getTalkerId = async (id) => {
   }
 };
 
+const getTalkerByName = async (queryName) => {
+  try {
+    const talkers = await readTalkerFile();
+
+    const filterTalker = talkers.filter((talker) => talker.name.includes(queryName));
+
+    return filterTalker;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const createTalker = async (talker) => {
   try {
     const talkers = await getAllTalkers();
@@ -93,6 +105,7 @@ const deleteTalker = async (id) => {
 module.exports = { 
   getAllTalkers,
   getTalkerId,
+  getTalkerByName,
   writeTalkerFile,
   createTalker,
   updateTalker,
