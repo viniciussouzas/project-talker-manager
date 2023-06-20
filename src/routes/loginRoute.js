@@ -5,8 +5,6 @@ const { emailValidation, passwordValidation } = require('../middlewares/loginVal
 const loginRouter = express.Router();
 
 loginRouter.post('/', emailValidation, passwordValidation, async (req, res) => {
-  // const { email, password } = req.body;
-
   const randomToken = generateToken();
 
   res.status(200).json({ token: randomToken });

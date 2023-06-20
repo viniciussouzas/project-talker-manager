@@ -27,4 +27,12 @@ const getTalkerId = async (id) => {
   return findTalker;
 };
 
-module.exports = { getAllTalkers, getTalkerId };
+const writeTalkerFile = async (newTalker) => {
+  try {
+    await fs.writeFile('src/talker.json', newTalker);
+  } catch (error) {
+    return null;
+  }
+};
+
+module.exports = { getAllTalkers, getTalkerId, writeTalkerFile };
